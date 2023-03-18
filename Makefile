@@ -6,7 +6,7 @@
 #    By: njerasea <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 23:20:35 by njerasea          #+#    #+#              #
-#    Updated: 2022/04/18 22:03:22 by njerasea         ###   ########.fr        #
+#    Updated: 2023/03/18 17:02:25 by njerasea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS	= ft_isalpha.c \
           ft_striteri.c \
           ft_strmapi.c \
           ft_itoa.c \
-          ft_split.c 
+          ft_split.c
 
 BONUS_SRCS	= ft_lstnew.c \
 	  	  ft_lstadd_front.c \
@@ -57,7 +57,7 @@ BONUS_SRCS	= ft_lstnew.c \
 	  	  ft_lstmap.c
 
 LIBC	= ar -rcs
-CC	= gcc -Wall -Werror -Wextra -std=c99
+CC	= gcc -Wall -Werror -Wextra
 RM	= rm -rf
 OBJS	= $(SRCS:.c=.o)
 OBBJS	= $(BONUS_SRCS:.c=.o)

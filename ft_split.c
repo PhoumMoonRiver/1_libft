@@ -6,94 +6,95 @@
 /*   By: njerasea <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 18:22:58 by njerasea          #+#    #+#             */
-/*   Updated: 2022/04/18 22:37:36 by njerasea         ###   ########.fr       */
+/*   Updated: 2023/03/18 17:44:29 by njerasea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_s(char s, char c)
-{
-	if (s == c)
-		return (1);
-	return (0);
-}
-
-int	num_word(char const *str, char c)
+int	count_word(char *str, char del)
 {
 	int	i;
 	int	count;
 
 	i = 0;
 	count = 0;
+	while (str[i] == del && str[i])
+			i++;
 	while (str[i])
 	{
-		if (is_s(str[i], c) == 0)
-		{
-			count++;
-			while (str[i] && is_s(str[i], c) == 0)
-				i++;
-		}
-		else
+		count++;
+		while (str[i] != del && str[i])
+			i++;
+		while (str[i] == del && str[i])
 			i++;
 	}
 	return (count);
 }
 
-char	*ft_splitter(int *i, char const *str, int size)
+int	len_count(char *w, char c)
 {
-	int		j;
-	char	*dest;
-
-	dest = malloc(sizeof(char) * size + 1);
-	if (!dest || !i || !str)
-		return (NULL);
-	j = 0;
-	while (j < size)
-	{
-		dest[j] = str[*i];
-		j++;
-		*i = *i + 1;
-	}
-	dest[size] = '\0';
-	return (dest);
-}
-
-char	**ft_prot(char const *s, char c, char **dest)
-{
-	int	j;
-	int	k;
 	int	i;
 
 	i = 0;
-	j = 0;
-	k = 0;
-	while (s[i])
-	{
-		if (is_s(s[i], c) == 0)
-		{
-			j = 0;
-			while (s[i + j] && is_s(s[i + j], c) == 0)
-				j++;
-			dest[k] = ft_splitter(&i, s, j);
-				k++;
-		}
-		else
-			i++;
-	}
-	return (dest);
+	while (w[i] != c && w[i])
+		i++;
+	return (i);
 }
 
-char	**ft_split(char const *s, char c)
+char    *len_assign(char *str, char del)
 {
-	char	**dest;
+	int	i;
+	int	len;
+	char	*mini_splited;
 
-	if (!s)
+	i = 0;
+	len = len_count(&str[i], del);
+	mini_splited = (char *)malloc(sizeof(char) * len + 1);
+	if (!mini_splited)
 		return (NULL);
-	dest = (char **)malloc(sizeof(char *) * (num_word(s, c) + 1));
-	if (!dest)
+	while (i < len)
+	{
+		mini_splited[i] = str[i];
+		i++;
+	}
+	mini_splited[len] = '\0';
+	return (mini_splited);
+}
+
+char	**ft_input_valus(char *str, char del, char **splited)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i] == del && str[i])
+		i++;
+	while (str[i])
+	{
+		splited[j] = len_assign(&str[i], del);
+		j++;
+		while (str[i] != del && str[i])
+			i++;
+		while (str[i] == del && str[i])
+			i++;
+	}
+	return (splited);
+}
+
+char	**ft_split(char *str, char del)
+{
+	char	**splited;
+	int	word;
+
+	if (!str)
 		return (NULL);
-	dest[num_word(s, c)] = NULL;
-	dest = ft_prot(s, c, dest);
-	return (dest);
+	word = count_word(str, del);
+	splited = (char **)malloc(sizeof(char *) * (word + 1));
+	if (!splited)
+		return (NULL);
+	splited[word] = NULL;
+	splited = ft_input_valus(str, del, splited);
+	return (splited);
 }
